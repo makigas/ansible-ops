@@ -24,6 +24,12 @@
     rvm1_install_flags: '--auto-dotfiles'
     rvm1_install_path: '/usr/local/rvm'
     rvm1_user: root
+  - role: geerlingguy.passenger
+    become: true
+    passenger_server_name: makigas.dev
+    passenger_app_root: /var/www/makigas/current/public
+    passenger_app_env: production
+    passenger_ruby: /usr/local/rvm/gems/ruby-2.3.3/wrappers/ruby
   - role: makigas-app
     deploy_user: makigaseml
     deploy_path: /var/www/makigas

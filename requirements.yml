@@ -9,3 +9,6 @@
 - url: https://github.com/rvm/rvm1-ansible
   version: v2.0.0
   name: rvm_io.ruby
+- url: https://github.com/geerlingguy/ansible-role-passenger
+  version: '1.1.1'
+  name: geerlingguy.passenger
