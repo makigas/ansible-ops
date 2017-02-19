@@ -24,6 +24,7 @@
     comment: "Deployment user"
     groups: operators,sudo
     append: yes
+    shell: /bin/bash
     state: present
 
 - name: Make deployment user passwordless
