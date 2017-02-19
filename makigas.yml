@@ -4,7 +4,7 @@
   vars_files:
   - variables.yml
   roles:
-  - role: makigas-setup
+  - role: setup
     become: true
     deploy_user: '{{ deployment.user }}'
     deploy_group: '{{ deployment.group }}'
@@ -33,7 +33,7 @@
     passenger_app_root: '{{ deployment.path }}/current/public'
     passenger_app_env: production
     passenger_ruby: '/usr/local/rvm/gems/ruby-{{ system.ruby_version }}/wrappers/ruby'
-  - role: makigas-app
+  - role: makigas
     deploy_user: '{{ deployment.user }}'
     deploy_path: '{{ deployment.path }}'
     deploy_group: '{{ deployment.group }}'
