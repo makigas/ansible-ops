@@ -12,3 +12,23 @@
   - nodejs      # required to compile assets
   - libpq-dev   # required for the pg gem
   - imagemagick # required to process uploaded images
+
+- name: Create operators group
+  group:
+    name: operators
+    state: present
+
+- name: Create deployment user
+  user:
+    name: "{{ deploy_user }}"
+    comment: "Deployment user"
+    groups: operators,sudo
+    append: yes
+    state: present
+
+- name: Make deployment user passwordless
+  become: true
+  copy:
+    content: "{{ deploy_user }} ALL=(ALL) NOPASSWD:ALL"
+    dest: "/etc/sudoers.d/{{ deploy_user }}"
+    mode: 0440

@@ -4,6 +4,7 @@
   roles:
   - role: makigas-setup
     become: true
+    deploy_user: makigaseml
   - role: ANXS.postgresql
     become: true
     postgresql_version: 9.4
@@ -14,5 +15,7 @@
     - name: makigas
       role_attr_flags: "CREATEDB,LOGIN"
   - role: rvm_io.ruby
+    become: true
+    become_user: makigaseml
     rvm1_rubies: ['ruby-2.3.3']
-    rvm1_user: 'vagrant'
+    rvm1_user: makigaseml
