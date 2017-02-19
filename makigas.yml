@@ -5,6 +5,7 @@
   - role: makigas-setup
     become: true
     deploy_user: makigaseml
+    deploy_group: operators
   - role: ANXS.postgresql
     become: true
     postgresql_version: 9.4
@@ -16,6 +17,7 @@
       role_attr_flags: "CREATEDB,LOGIN"
   - role: rvm_io.ruby
     become: true
-    become_user: makigaseml
     rvm1_rubies: ['ruby-2.3.3']
-    rvm1_user: makigaseml
+    rvm1_install_flags: '--auto-dotfiles'
+    rvm1_install_path: '/usr/local/rvm'
+    rvm1_user: root

@@ -15,21 +15,14 @@
 
 - name: Create operators group
   group:
-    name: operators
+    name: '{{ deploy_group }}'
     state: present
 
 - name: Create deployment user
   user:
     name: "{{ deploy_user }}"
     comment: "Deployment user"
-    groups: operators,sudo
+    groups: '{{ deploy_group }},sudo'
     append: yes
     shell: /bin/bash
     state: present
-
-- name: Make deployment user passwordless
-  become: true
-  copy:
-    content: "{{ deploy_user }} ALL=(ALL) NOPASSWD:ALL"
-    dest: "/etc/sudoers.d/{{ deploy_user }}"
-    mode: 0440
