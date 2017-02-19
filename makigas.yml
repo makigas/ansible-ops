@@ -12,6 +12,9 @@
     postgresql_users:
     - name: makigas
       password: p4ssw0rd
+    postgresql_databases:
+    - name: makigas_production
+      owner: makigas
     postgresql_user_privileges:
     - name: makigas
       role_attr_flags: "CREATEDB,LOGIN"
@@ -21,3 +24,12 @@
     rvm1_install_flags: '--auto-dotfiles'
     rvm1_install_path: '/usr/local/rvm'
     rvm1_user: root
+  - role: makigas-app
+    deploy_user: makigaseml
+    deploy_path: /var/www/makigas
+    deploy_group: operators
+    database_user: makigas
+    database_database: makigas_production
+    database_password: p4ssw0rd
+    secrets:
+      secret_key_base: 5b4e8211960057310b00f5c2a7177cc7402903c32159a23808aafef1470f9d8e9e93497ef45ddac03ce14020a430c8bbb47bb0cd860049ae7efe4d7c3db9d4d6

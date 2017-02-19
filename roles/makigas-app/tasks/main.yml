@@ -1,0 +1,30 @@
+---
+
+- name: Create deployment folder
+  become: true
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_group }}"
+    mode: 0775
+    recurse: yes
+  with_items:
+  - '{{ deploy_path }}'
+  - '{{ deploy_path }}/shared/config'
+
+- name: Install database file
+  become: true
+  become_user: '{{ deploy_user }}'
+  template:
+    src: "database.yml.j2"
+    dest: "{{ deploy_path }}/shared/config/database.yml"
+    mode: 0664
+
+- name: Install secrets file
+  become: true
+  become_user: '{{ deploy_user }}'
+  template:
+    src: "secrets.yml.j2"
+    dest: "{{ deploy_path }}/shared/config/secrets.yml"
+    mode: 0664

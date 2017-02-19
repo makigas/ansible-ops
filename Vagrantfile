@@ -10,6 +10,9 @@ Vagrant.configure("2") do |config|
   # Offer a passthrough folder to the machine.
   config.vm.synced_folder "data", "/vagrant"
 
+  # Use insecure_private_key for making SSH access faster.
+  config.ssh.insert_key = false
+
   # Let's imagine we are using a CPU low in resources.
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "1024"

@@ -1,0 +1,10 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+production:
+  <<: *default
+  database: {{ database_database }}
+  username: {{ database_user }}
+  password: {{ database_password }}
