@@ -10,39 +10,51 @@ provisioning, deployment or backups is available.
 
 ## Requirements
 
-Ansible 2.0+ and a server to deploy to.
+Ansible 2.2+ and a server to deploy to.
 
-Ansible requires Python 3. Additionally, support for OpenSSH at the operating
-system level is required. Supported operating systems include Linux, MacOS,
-FreeBSD and Solaris. Windows is not supported. None of the developers for this
-project use Windows, so that's OK.
+The control machine (laptop, desktop, workstation) requires Python 2.6+ and
+either a GNU/Linux flavour such as Debian or CentOS or any other UNIX OS such
+as MacOS X or FreeBSD. Windows is not supported for the control machine.
+
+The managed machine requires Python 2.4+, OpenSSH.
 
 To provision a Vagrant box, [Vagrant](https://vagrantup.com) is required.
 It will require a virtualization provider such as VirtualBox or VMware. The
 development team only uses VirtualBox, therefore that is the only supported
 platform.
 
-## General instructions
+## Provisioning instructions
 
-:warning: **This playbook is not ready for production yet**. The playbook has
-been tested with the provided Vagrant box but it hasn't been tested with a
-real staging server yet. I'm working on it. Keeping that in mind:
+At this moment this playbook assumes the following:
 
-1. `cp variables.yml.example variables.yml` and fill in the variables as
-   you need.
-1. `vagrant up` to bring the system up. The first time it should take a long
-   time unless you already have a jessie64 image on your computer. It should
-   already run the provisioning playbook.
-1. `vagrant ssh` and test the server works as expected (i.e. you can sudo su
-   as your deployment user, files and databases actually exists...)
-1. You'll deploy the application using Capistrano later. You can use any
-   server user you want as long as that user is in the deployment group. Make
-   sure it is. For instance, for adding `vagrant` user to the `operators`
-   group in order to deploy as vagrant@192.168.40.10:
-   `sudo adduser vagrant operators`.
-1. Test that the Capistrano schema in the web application repository can
-   deploy correctly using `cap vagrant deploy`. You should be able to access
-   the web application by going to http://192.168.40.10.
+* You must already have Python 2.6 / 2.7 installed. Ansible still doesn't
+  support Python 3 on the target server, so even if your distribution comes with
+  Python 3, you'll still require Python 2.
+* You must already have an SSH service running on your server. Bonus points if
+  you already have an RSA key installed so that you can connect without
+  providing a password, but you'll be able to connect with password login.
+
+Instructions:
+
+1. Install third party roles: `ansible-galaxy install -r requirements.yml`
+2. Copy hosts file from template and modify it to the actual server IP or domain to configure:
+  * `cp hosts.example hosts`
+  * `vim hosts`
+3. Copy variables file from template and modify it to the actual values for
+   usernames, passwords, databases and directories to install in.
+   * `cp variables.yml.example variables.yml`
+   * `vim variables.yml`
+4. Provision! `ansible-playbook makigas.yml -i hosts --ask-become-pass`
+   * If you are not using RSA keys (why wouldn't you), add `--ask-pass` flag.
+5. After deployment, you should add the user you connect via SSH from to
+   the deployment group so that you can also deploy via Capistrano:
+   `sudo adduser [your username] [deployment.group]`.
+
+### Vagrant specific instructions
+
+There is a Vagrant box configured with Debian 8.0. The configuration file
+already provisions the machine when `vagrant up` is executed for the first
+time.
 
 ## Files overview
 
@@ -54,6 +66,9 @@ Ansible:
 * `variables.yml.example`: you are supposed to copy this file into variables.yml
   and set the values to the actual usernames, passwords and system information
   you want to use with the playbook and which you should totally keep private.
+* `hosts`: the server IPs to install. This file doesn't exist either because
+  you are supposed to bootstrap the example template.
+* `hosts.example`: the template for the hosts file.
 * `roles/`: custom roles for provisioning.
 
 Vagrant:
