@@ -6,3 +6,6 @@
 - url: https://github.com/ANXS/postgresql
   version: v1.7.1
   name: ANXS.postgresql
+- url: https://github.com/rvm/rvm1-ansible
+  version: v2.0.0
+  name: rvm_io.ruby

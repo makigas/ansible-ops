@@ -2,6 +2,8 @@
 
 - hosts: all
   roles:
+  - role: makigas-setup
+    become: true
   - role: ANXS.postgresql
     become: true
     postgresql_version: 9.4
@@ -11,3 +13,6 @@
     postgresql_user_privileges:
     - name: makigas
       role_attr_flags: "CREATEDB,LOGIN"
+  - role: rvm_io.ruby
+    rvm1_rubies: ['ruby-2.3.3']
+    rvm1_user: 'vagrant'

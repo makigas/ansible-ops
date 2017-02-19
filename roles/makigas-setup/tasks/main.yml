@@ -1,0 +1,14 @@
+---
+
+- name: Install rvm dependencies
+  apt: package="{{ item }}" state=latest
+  with_items:
+  - curl
+
+- name: Install makigas.es dependencies
+  apt: package="{{ item }}" state=latest
+  with_items:
+  - git         # used to fetch the application
+  - nodejs      # required to compile assets
+  - libpq-dev   # required for the pg gem
+  - imagemagick # required to process uploaded images
