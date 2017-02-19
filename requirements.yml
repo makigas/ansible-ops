@@ -1,0 +1,8 @@
+---
+
+# Requirements file. Make sure to install these dependencies
+# using ansible-galaxy before attempting to run the playbook.
+
+- url: https://github.com/ANXS/postgresql
+  version: v1.7.1
+  name: ANXS.postgresql

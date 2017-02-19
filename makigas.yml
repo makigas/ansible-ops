@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  roles:
+  - role: ANXS.postgresql
+    become: true
+    postgresql_version: 9.4
+    postgresql_users:
+    - name: makigas
+      password: p4ssw0rd
+    postgresql_user_privileges:
+    - name: makigas
+      role_attr_flags: "CREATEDB,LOGIN"

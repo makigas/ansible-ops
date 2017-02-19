@@ -14,4 +14,11 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "1024"
   end
+
+  # TODO: Don't start working on Ansible until the VM works.
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "makigas.yml"
+    ansible.host_key_checking = false
+    ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
+  end
 end
