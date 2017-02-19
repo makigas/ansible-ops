@@ -1,41 +1,44 @@
 ---
 
 - hosts: all
+  vars_files:
+  - variables.yml
   roles:
   - role: makigas-setup
     become: true
-    deploy_user: makigaseml
-    deploy_group: operators
+    deploy_user: '{{ deployment.user }}'
+    deploy_group: '{{ deployment.group }}'
   - role: ANXS.postgresql
     become: true
     postgresql_version: 9.4
     postgresql_users:
-    - name: makigas
-      password: p4ssw0rd
+    - name: '{{ database.user }}'
+      password: '{{ database.password }}'
     postgresql_databases:
-    - name: makigas_production
-      owner: makigas
+    - name: '{{ database.database }}'
+      owner: '{{ database.user }}'
     postgresql_user_privileges:
-    - name: makigas
+    - name: '{{ database.user }}'
       role_attr_flags: "CREATEDB,LOGIN"
   - role: rvm_io.ruby
     become: true
-    rvm1_rubies: ['ruby-2.3.3']
+    rvm1_rubies:
+    - 'ruby-{{ system.ruby_version }}'
     rvm1_install_flags: '--auto-dotfiles'
     rvm1_install_path: '/usr/local/rvm'
     rvm1_user: root
   - role: geerlingguy.passenger
     become: true
-    passenger_server_name: makigas.dev
-    passenger_app_root: /var/www/makigas/current/public
+    passenger_server_name: '{{ deployment.host }}'
+    passenger_app_root: '{{ deployment.path }}/current/public'
     passenger_app_env: production
-    passenger_ruby: /usr/local/rvm/gems/ruby-2.3.3/wrappers/ruby
+    passenger_ruby: '/usr/local/rvm/gems/ruby-{{ system.ruby_version }}/wrappers/ruby'
   - role: makigas-app
-    deploy_user: makigaseml
-    deploy_path: /var/www/makigas
-    deploy_group: operators
-    database_user: makigas
-    database_database: makigas_production
-    database_password: p4ssw0rd
+    deploy_user: '{{ deployment.user }}'
+    deploy_path: '{{ deployment.path }}'
+    deploy_group: '{{ deployment.group }}'
+    database_user: '{{ database.user }}'
+    database_database: '{{ database.database }}'
+    database_password: '{{ database.password }}'
     secrets:
       secret_key_base: 5b4e8211960057310b00f5c2a7177cc7402903c32159a23808aafef1470f9d8e9e93497ef45ddac03ce14020a430c8bbb47bb0cd860049ae7efe4d7c3db9d4d6

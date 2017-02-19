@@ -1,0 +1,25 @@
+---
+
+# Variables
+
+# Database settings. A PostgreSQL database will be created using these
+# parameters. Additionally, config/database.yml will be written using these
+# values so that the application can connect.
+database:
+  database: # database name, usually ends in _production
+  user: # database username
+  password: # database password
+
+# Deployment in the server. The web application will be installed into the
+# given path. An agnostic owner will be created and added to the deployment
+# group. Anyone in this group will be able to deploy and manage the application.
+# It is suggested to add the server operators to that group instead of using
+# sudo su.
+deployment:
+  user: # username that will own the application
+  group: ops # users in this group will be able to control the application
+  host: # host name to configure the server to listen at
+  path: # where to deploy the application
+
+system:
+  ruby_version: '2.3.3' # Which Ruby version to install and use.
