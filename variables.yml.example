@@ -22,4 +22,4 @@ deployment:
   path: # where to deploy the application
 
 system:
-  ruby_version: '2.3.3' # Which Ruby version to install and use.
+  ruby_version: '2.4.1' # Which Ruby version to install and use.
